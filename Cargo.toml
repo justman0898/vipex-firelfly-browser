@@ -5,4 +5,9 @@ edition = "2024"
 
 [dependencies]
 thiserror = "1.0.69"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net"] }
+async-trait = "0.1.89"
+simple_logger = "1.16"
+log = "0.4.29"
+
 

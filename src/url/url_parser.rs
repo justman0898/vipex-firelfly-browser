@@ -122,7 +122,7 @@ mod tests {
     }
 
     #[test]
-    pub fn test_that_can_handle_non_Hierarchical_url(){
+    pub fn test_that_can_handle_non_hierarchical_url(){
         let url = "about:blank";
         let result = Url::parse(url).unwrap();
 

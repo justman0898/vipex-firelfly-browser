@@ -17,8 +17,11 @@ pub enum AppError {
 
     #[error("DNS Error: {0}")]
     DnsError(String),
-    
+
     #[error("DNS Lookup Error: No address found")]
     NoAddressesFound,
+
+    #[error("DNS Lookup Error: Timed out")]
+    DnsTimeout
 
 }

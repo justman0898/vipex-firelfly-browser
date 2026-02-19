@@ -22,9 +22,15 @@ impl DnsResolver for BasicDnsResolver {
 
         let query = format!("{}:{}", host, port);
 
-        let addresses = tokio::net::lookup_host(query)
-            .await
+        let result = tokio::net::lookup_host(query);
+
+        let addresses = tokio::time::timeout(
+            tokio::time::Duration::from_secs(5u64),
+            result,
+        ).await
+            .map_err(|_| AppError::DnsTimeout)?
             .map_err(|e| AppError::DnsError(format!("{}", e)))?;
+
 
         let mut ipv4: Vec<SocketAddr> = Vec::new();
         let mut ipv6: Vec<SocketAddr> = Vec::new();
@@ -56,7 +62,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_can_resolve_valid_host_port(){
-        let host = "google.com";
+        let host = "facebook.com";
         let port = 43u16;
 
         let resolver = BasicDnsResolver {};
@@ -64,7 +70,7 @@ mod tests {
 
         assert!(result.is_ok());
 
-        let addresses = result.unwrap();
+        let addresses = result.expect("Timeout");
 
         assert!(!addresses.is_empty());
 

@@ -62,7 +62,7 @@ mod tests {
 
     #[tokio::test]
     async fn test_can_resolve_valid_host_port(){
-        let host = "facebook.com";
+        let host = "yahoo.com";
         let port = 43u16;
 
         let resolver = BasicDnsResolver {};

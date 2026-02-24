@@ -3,7 +3,7 @@ use thiserror::Error;
 #[derive(Error)]
 #[derive(Debug)]
 #[derive(PartialEq)]
-#[derive(Clone)]
+// #[derive(Clone)]
 pub enum AppError {
 
     #[error("Invalid URL: {0}")]
@@ -22,6 +22,15 @@ pub enum AppError {
     NoAddressesFound,
 
     #[error("DNS Lookup Error: Timed out")]
-    DnsTimeout
+    DnsTimeout,
+
+    #[error("Redis error: {0}")]
+    RedisError(#[from] redis::RedisError),
+
+    #[error(transparent)]
+    EnvError(#[from] std::env::VarError),
+
+    #[error(transparent)]
+    ParseIntError(#[from] std::num::ParseIntError),
 
 }
